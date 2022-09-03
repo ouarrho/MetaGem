@@ -43,11 +43,6 @@
 
 		}
 
-		@media only screen and (max-width: 780px) {
-
-		
-		}
-
 	</style>
 
 </head>
@@ -55,9 +50,13 @@
 
 	<?php
 
-		$value = '#}=i"KA^';
+		//$value = '#}=i"KA^';
 
-		$hash = '94b50dc4775c31ab0599af7805498455816493de86b373e9993f87ae3d52911283121d96419854dac1ff59939f9db73534f8fb08a6d4078ba31c4c5b61eb908a03862ceffcab6a78e83673ae5b32e0d2559ef590e55a84feb8b30ff5d68fd735';
+		//$hash = '94b50dc4775c31ab0599af7805498455816493de86b373e9993f87ae3d52911283121d96419854dac1ff59939f9db73534f8fb08a6d4078ba31c4c5b61eb908a03862ceffcab6a78e83673ae5b32e0d2559ef590e55a84feb8b30ff5d68fd735';
+
+		$value = $_GET[ 'v' ];
+
+		$hash  = $_GET[ 'h' ].hash( 'sha256', $value );
 
 	?>
 
