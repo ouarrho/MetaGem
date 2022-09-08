@@ -21,6 +21,8 @@ $(document).ready(function(){
 
 	var lastHash = '<Ouarrho />';
 
+	( localStorage.lastHash != undefined && localStorage.lastHash != '' ) ? lastHash = localStorage.lastHash : '';
+
 
 	const $html = ( v, h ) => {
 
@@ -150,6 +152,8 @@ $(document).ready(function(){
 		}else{
 
 			start = false;
+
+			localStorage.lastHash = lastHash;
 
 			$(this).attr( 'data-start', 'false' ).text( 'Start Mining' ).removeClass( 'btn-danger' ).addClass( 'btn-success' );
 
