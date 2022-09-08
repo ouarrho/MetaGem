@@ -1,10 +1,9 @@
 $(document).ready(function(){
 
+	( localStorage.hash  === undefined ) ? localStorage.hash  = '' : '';
+	( localStorage.hash3 === undefined ) ? localStorage.hash3 = '' : '';
+
 	var start  = false;
-
-	var prefix       = '';
-
-	var prefixLength = 0;
 
 	var $gemValue    = $( '.gem-value' );
 
@@ -19,6 +18,9 @@ $(document).ready(function(){
 	var $gemHash128Collected = $( '.gem-hash-128-collected' );
 
 	var $gemHash64Collected  = $( '.gem-hash-64-collected' );
+
+	var lastHash = '<Ouarrho />';
+
 
 	const $html = ( v, h ) => {
 
@@ -58,7 +60,7 @@ $(document).ready(function(){
 
 	}
 
-	const arr = [ 
+	const arrChars = [ 
 
 				/*' ', '	',*/
 
@@ -68,7 +70,7 @@ $(document).ready(function(){
 
 				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 
-				'~', /*'`',*/ '!', '@', '#', '$', '%', '^', /*'&',*/ '*', '(', ')', '-', '_', '+', /*'=',*/ '{', '}', '[', ']', '|', '\\', '/', ':', ';', /*'"',*/ /*'\'',*/ '<', '>', ',', '.'/*, '?'*/
+				'~', /*'`',*/ '!', '@', /*'#',*/ '$', '%', '^', /*'&',*/ '*', '(', ')', '-', '_', '+', /*'=',*/ '{', '}', '[', ']', '|', '\\', '/', ':', ';', /*'"',*/ /*'\'',*/ '<', '>', ',', '.'/*, '?'*/
 
 			];
 
@@ -94,73 +96,29 @@ $(document).ready(function(){
 	}
 
 	function startMining(){
-		
-		let min = Math.ceil( 0 );
-		let max = Math.floor( 85 );
-		
-		let min1 = Math.ceil( 0 );
-		let max1 = Math.floor( 85 );
 
-		let min2 = Math.ceil( 0 );
-		let max2 = Math.floor( 85 );
-
-		let min3 = Math.ceil( 0 );
-		let max3 = Math.floor( 85 );
-
-		let min4 = Math.ceil( 0 );
-		let max4 = Math.floor( 85 );
-
-		let min5 = Math.ceil( 0 );
-		let max5 = Math.floor( 85 );
-
-		let min6 = Math.ceil( 0 );
-		let max6 = Math.floor( 85 );
-
-		let min7 = Math.ceil( 0 );
-		let max7 = Math.floor( 85 );
-
-		let min8 = Math.ceil( 0 );
-		let max8 = Math.floor( 85 );
-
-		let min9 = Math.ceil( 0 );
-		let max9 = Math.floor( 85 );
-
-		let min10 = Math.ceil( 0 );
-		let max10 = Math.floor( 85 );
-
-		let min11 = Math.ceil( 0 );
-		let max11 = Math.floor( 85 );
-
-		let random   = Math.floor( Math.random() * (max - min) + min );
-		let random1  = Math.floor( Math.random() * (max1 - min1) + min1 );
-		let random2  = Math.floor( Math.random() * (max2 - min2) + min2 );
-		let random3  = Math.floor( Math.random() * (max3 - min3) + min3 );
-		let random4  = Math.floor( Math.random() * (max4 - min4) + min4 );
-		let random5  = Math.floor( Math.random() * (max5 - min5) + min5 );
-		let random6  = Math.floor( Math.random() * (max6 - min6) + min6 );
-		let random7  = Math.floor( Math.random() * (max7 - min7) + min7 );
-		let random8  = Math.floor( Math.random() * (max8 - min8) + min8 );
-		let random9  = Math.floor( Math.random() * (max9 - min9) + min9 );
-		let random10 = Math.floor( Math.random() * (max10 - min10) + min10 );
-		let random11 = Math.floor( Math.random() * (max11 - min11) + min11 );
-
-		let str = arr[ random ] + arr[ random1 ] + arr[ random2 ] + arr[ random3 ] + arr[ random4 ] + arr[ random5 ] + arr[ random6 ] + arr[ random7 ] + arr[ random8 ] + arr[ random9 ] + arr[ random10 ] + arr[ random11 ];
+		let str = lastHash;
 
 		sha512( str ).then( hash => { 
 
-			let prefixHash = hash.substring( 0, prefixLength );
+			lastHash = hash;
+
+			let char0   = hash.charAt( 0 );
+			let char1   = hash.charAt( 1 );
+			let char2   = hash.charAt( 2 );
+			let char125 = hash.charAt( 125 );
+			let char126 = hash.charAt( 126 );
+			let char127 = hash.charAt( 127 );
 
 			$gemValue.text( str );
 
 			$gemHash128.text( hash );
 
-			if( prefixHash === prefix ){
+			if( new Set( [ char0, char1, char2, char125, char126, char127 ] ).size === 1 ){
+
+				localStorage.hash3 = localStorage.hash3 +  '  &&  ' + str + '  ||  ' + hash
 
 				$html( str, hash );
-
-				//$gemValueCollected.text( str );
-
-				//$gemHash128Collected.text( hash );
 
 			}
 
@@ -174,27 +132,7 @@ $(document).ready(function(){
 
 			}
 
-		});/*.then( hash => { 
-			
-			sha256( str ).then( hash => { 
-
-				$gemValue.text( str );
-
-				$gemHash64.text( hash );
-
-				if( start == true ){
-
-					setTimeout(function(){
-		
-						startMining();
-
-					}, 10);
-
-				}
-
-			})
-
-		});*/
+		});
 
 	}
 
@@ -202,12 +140,6 @@ $(document).ready(function(){
 	$(document).on( 'click', '.start-mining', function(){
 
 		if( $(this).attr( 'data-start' ) == 'false' ){
-
-			prefix = $( '#prefix' ).val();
-
-			prefixLength = prefix.length;
-
-			if( prefixLength < 2 ) return
 
 			start = true;
 
@@ -225,11 +157,19 @@ $(document).ready(function(){
 
 	});
 
-	$(document).on( 'keyup', '#prefix', function(){
+	var allHash = localStorage.hash3;
 
-		start = false;
+	var splitAllHash = allHash.split( '  &&  ' );
 
-		$( '.start-mining' ).attr( 'data-start', 'false' ).text( 'Start Mining' ).removeClass( 'btn-danger' ).addClass( 'btn-success' );
+	$.each( splitAllHash, function( i, v ){
+
+		if( i > 0 ){
+
+			let value = v.split( '  ||  ' );
+
+			$html( value[ 0 ], value[ 1 ] );
+
+		}
 
 	});
 
