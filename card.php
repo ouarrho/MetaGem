@@ -5,9 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>mg</title>
-
-	<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">-->
+	<title>Card</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
@@ -50,13 +48,9 @@
 
 	<?php
 
-		//$value = '#}=i"KA^';
+		$value = htmlspecialchars($_GET[ 'v' ]);
 
-		//$hash = '94b50dc4775c31ab0599af7805498455816493de86b373e9993f87ae3d52911283121d96419854dac1ff59939f9db73534f8fb08a6d4078ba31c4c5b61eb908a03862ceffcab6a78e83673ae5b32e0d2559ef590e55a84feb8b30ff5d68fd735';
-
-		$value = $_GET[ 'v' ];
-
-		$hash  = $_GET[ 'h' ].hash( 'sha256', $value );
+		$hash  = htmlspecialchars($_GET[ 'h' ]).hash( 'sha256', $value );
 
 	?>
 
