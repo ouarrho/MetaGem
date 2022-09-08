@@ -3,6 +3,9 @@ $(document).ready(function(){
 	( localStorage.hash  === undefined ) ? localStorage.hash  = '' : '';
 	( localStorage.hash3 === undefined ) ? localStorage.hash3 = '' : '';
 
+	let date = Date.now();
+	let now  = window.performance.now();
+
 	var start  = false;
 
 	var $gemValue    = $( '.gem-value' );
@@ -19,7 +22,8 @@ $(document).ready(function(){
 
 	var $gemHash64Collected  = $( '.gem-hash-64-collected' );
 
-	var lastHash = '<Ouarrho />';
+
+	var lastHash = `<Ouarrho date="${date}${now.toFixed(15)}" />`;
 
 	( localStorage.lastHash != undefined && localStorage.lastHash != '' ) ? lastHash = localStorage.lastHash : '';
 
